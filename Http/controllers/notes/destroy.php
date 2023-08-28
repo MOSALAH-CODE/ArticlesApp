@@ -2,6 +2,7 @@
 
 use Core\App;
 use Core\Database;
+use Core\Redirect;
 
 $db = App::resolve(Database::class);
 
@@ -13,5 +14,4 @@ authorize($note['user_id'] === $currentUserId);
 
 $db->delete('notes', ['id', '=', $_POST['id']]);
 
-header('location: /notes');
-exit();
+Redirect::to('/notes');

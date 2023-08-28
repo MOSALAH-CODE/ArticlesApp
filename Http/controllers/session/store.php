@@ -1,6 +1,7 @@
 <?php
 
 use Core\Authenticator;
+use Core\Redirect;
 use Http\Forms\LoginForm;
 
 
@@ -20,4 +21,4 @@ if (!$signedIn) {
     )->throw();
 }
 
-redirect('/');
+Redirect::to('/');

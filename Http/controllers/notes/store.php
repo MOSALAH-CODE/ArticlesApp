@@ -1,6 +1,7 @@
 <?php
 
 use Core\App;
+use Core\Redirect;
 use Core\Validator;
 use Core\Database;
 
@@ -22,10 +23,7 @@ $db->insert('notes', [
     'body' => $_POST['body'],
     'user_id' => 1
 ]);
-//$db->query('INSERT INTO notes(body, user_id) VALUES(:body, :user_id)', [
-//    'body' => $_POST['body'],
-//    'user_id' => 1
-//]);
 
-header('location: /notes');
-die();
+
+Redirect::to('/notes');
+

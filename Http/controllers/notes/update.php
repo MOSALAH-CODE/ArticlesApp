@@ -2,6 +2,7 @@
 
 use Core\App;
 use Core\Database;
+use Core\Redirect;
 use Core\Validator;
 
 $db = App::resolve(Database::class);
@@ -33,5 +34,5 @@ if (count($errors)) {
 $db->update('notes', $_POST['id'], ['body' => $_POST['body']]);
 
 // redirect the user
-header('location: /notes');
-die();
+Redirect::to('/notes');
+

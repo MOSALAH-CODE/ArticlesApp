@@ -20,7 +20,7 @@ function abort($code = 404)
 {
     http_response_code($code);
 
-    require base_path("views/{$code}.php");
+    require base_path("includes/errors/{$code}.php");
 
     die();
 }
@@ -46,13 +46,11 @@ function view($path, $attributes = [])
     require base_path('views/' . $path);
 }
 
-function redirect($path)
-{
-    header("location: {$path}");
-    exit();
-}
-
 function old($key, $default = '')
 {
     return Core\Session::get('old')[$key] ?? $default;
+}
+
+function escape($string) {
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }

@@ -3,6 +3,7 @@
 use Core\App;
 use Core\Authenticator;
 use Core\Database;
+use Core\Redirect;
 use Core\Validator;
 
 
@@ -30,8 +31,7 @@ if (! empty($errors)) {
 $user = $db->get('users', ['email', '=', $email])->first();
 
 if ($user) {
-    header('location: /');
-    exit();
+    Redirect::to('/');
 } else {
     $db->insert('users', [
         'email'=>$email,
@@ -40,6 +40,5 @@ if ($user) {
 
     (new Authenticator())->login($user);
 
-    header('location: /');
-    exit();
+    Redirect::to('/');
 }

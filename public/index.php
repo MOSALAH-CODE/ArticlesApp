@@ -1,5 +1,6 @@
 <?php
 
+use Core\Redirect;
 use Core\Session;
 use Core\ValidationException;
 
@@ -23,7 +24,7 @@ try {
     Session::flash('errors', $exception->errors);
     Session::flash('old', $exception->old);
 
-    return redirect($router->previousUrl());
+    return Redirect::to($router->previousUrl());
 }
 
 Session::unflash();
