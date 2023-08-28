@@ -1,5 +1,7 @@
 <?php
 
+use Core\App;
+use Core\Database;
 use Core\Response;
 
 function dd($value)
@@ -53,4 +55,8 @@ function old($key, $default = '')
 
 function escape($string) {
     return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
+
+function getCurrentUser($value, $key='email'){
+    return App::resolve(Database::class)->get('users', [$key, '=', $value])->first();
 }

@@ -3,15 +3,17 @@
 use Core\App;
 use Core\Database;
 
-$db = App::resolve(Database::class);
+if (\Core\Session::exists('user')) {
+    $currentUser = getCurrentUser(\Core\Session::get('user')['id'], 'id');
+}
 
-$currentUserId = 1;
+$db = App::resolve(Database::class);
 
 $note = $db->get('notes', ['id', '=', $_GET['id']])->first();
 
 
 
-authorize($note['user_id'] === $currentUserId);
+authorize($note['user_id'] === $currentUser['id']);
 
 view("notes/edit.view.php", [
     'heading' => 'Edit Note',

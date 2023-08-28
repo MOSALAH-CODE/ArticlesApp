@@ -5,15 +5,17 @@ use Core\Database;
 use Core\Redirect;
 use Core\Validator;
 
-$db = App::resolve(Database::class);
+if (\Core\Session::exists('user')) {
+    $currentUser = getCurrentUser(\Core\Session::get('user')['id'], 'id');
+}
 
-$currentUserId = 1;
+$db = App::resolve(Database::class);
 
 // find the corresponding note
 $note = $db->get('notes', ['id', '=', $_POST['id']])->first();
 
 // authorize that the current user can edit the note
-authorize($note['user_id'] === $currentUserId);
+authorize($note['user_id'] === $currentUser['id']);
 
 // validate the form
 $errors = [];

@@ -5,6 +5,12 @@ use Core\Redirect;
 use Core\Validator;
 use Core\Database;
 
+
+if (\Core\Session::exists('user')) {
+    $currentUser = getCurrentUser(\Core\Session::get('user')['id'], 'id');
+}
+
+
 $db = App::resolve(Database::class);
 $errors = [];
 
@@ -21,7 +27,7 @@ if (! empty($errors)) {
 
 $db->insert('notes', [
     'body' => $_POST['body'],
-    'user_id' => 1
+    'user_id' => $currentUser['id']
 ]);
 
 
