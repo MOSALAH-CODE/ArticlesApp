@@ -5,7 +5,7 @@ namespace Http\Forms;
 use Core\ValidationException;
 use Core\Validator;
 
-class LoginForm extends Form
+class RegisterForm extends Form
 {
     public function __construct(public array $attributes)
     {
@@ -14,7 +14,7 @@ class LoginForm extends Form
         }
 
         if (!Validator::string($attributes['password'])) {
-            $this->errors['password'] = 'Please provide a valid password.';
+            $this->errors['password'] = 'Please provide a password of at least seven characters.';
         }
     }
 }

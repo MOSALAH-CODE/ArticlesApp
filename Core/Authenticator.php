@@ -4,7 +4,7 @@ namespace Core;
 
 class Authenticator
 {
-    public function attempt($email, $password)
+    public function loginAttempt($email, $password)
     {
         $user = App::resolve(Database::class)->get('users', ['email', '=', $email])->first();
         if ($user) {
@@ -18,6 +18,24 @@ class Authenticator
         }
 
         return false;
+    }
+    public function registerAttempt($email, $password)
+    {
+        $user = App::resolve(Database::class)->get('users', ['email', '=', $email])->first();
+        if ($user) {
+            return false;
+        } else {
+            App::resolve(Database::class)->insert('users', [
+                'email'=>$email,
+                'password'=>password_hash($password, PASSWORD_BCRYPT)
+            ]);
+
+            $user = App::resolve(Database::class)->get('users', ['email', '=', $email])->first();
+
+            (new Authenticator())->login($user);
+
+            return true;
+        }
     }
 
     public function login($user)

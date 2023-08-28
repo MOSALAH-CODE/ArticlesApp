@@ -31,9 +31,9 @@ class Database
     }
 
 
-    public static function getInstance($config)
+    public static function getInstance($config=null)
     {
-        if(!isset(self::$_instance)) {
+        if(!isset(self::$_instance) && $config!=null) {
             self::$_instance = new Database($config);
         }
         return self::$_instance;
@@ -140,7 +140,10 @@ class Database
 
     public function first() {
         $data = $this->results();
-        return $data[0];
+        if (!empty($data)){
+            return $data[0];
+        }
+        return false;
     }
 
     public function count() {
