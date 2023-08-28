@@ -1,18 +1,19 @@
 <?php
 
 use Core\Authenticator;
+use Core\Input;
 use Core\Redirect;
 use Http\Forms\LoginForm;
 
 
 $form = LoginForm::validate($attributes = [
-    'email' => $_POST['email'],
-    'password' => $_POST['password']
+    'email' => Input::get('email'),
+    'password' => Input::get('password')
 ]);
 
-
+$remember = Input::get('remember') === 'on';
 $signedIn = (new Authenticator)->loginAttempt(
-    $attributes['email'], $attributes['password']
+    $attributes['email'], $attributes['password'], $remember
 );
 
 if (!$signedIn) {

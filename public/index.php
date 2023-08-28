@@ -1,5 +1,9 @@
 <?php
 
+use Core\App;
+use Core\Authenticator;
+use Core\Cookie;
+use Core\Database;
 use Core\Redirect;
 use Core\Session;
 use Core\ValidationException;
@@ -28,5 +32,23 @@ try {
 }
 
 Session::unflash();
+
+$config = require base_path('config.php');
+
+if (Cookie::exists($config['remember']['cookie_name']) && !Session::exists($config['sessions']['session_name'])) {
+    $token = Cookie::get($config['remember']['cookie_name']);
+    $hashCheck = App::resolve(Database::class)->getInstance()->get('remember_tokens', ['token', '=', $token])->first();
+    if (count($hashCheck)) {
+        $user_id = $hashCheck['user_id'];
+        // Fetch user data based on user_id
+        $user = App::resolve(Database::class)->getInstance()->get('users', ['id', '=', $user_id])->first();
+
+        if ($user) {
+            (new Authenticator())->login($user);
+
+            Redirect::to('/');
+        }
+    }
+}
 
 
