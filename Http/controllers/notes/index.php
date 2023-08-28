@@ -4,7 +4,7 @@ use Core\App;
 use Core\Database;
 
 $db = App::resolve(Database::class);
-$notes = $db->query('select * from notes where user_id = 1')->get();
+$notes = $db->get('notes', ['user_id', '=', 1])->results();
 
 view("notes/index.view.php", [
     'heading' => 'My Notes',

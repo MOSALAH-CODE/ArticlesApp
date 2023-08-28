@@ -26,18 +26,17 @@ if (! empty($errors)) {
     ]);
 }
 
-$user = $db->query('select * from users where email = :email', [
-    'email' => $email
-])->find();
+
+$user = $db->get('users', ['email', '=', $email])->first();
 
 if ($user) {
     header('location: /');
     exit();
 } else {
-    $db->query('INSERT INTO users(email, password) VALUES(:email, :password)', [
-        'email' => $email,
-        'password' => password_hash($password, PASSWORD_BCRYPT)
-    ]);
+    $db->insert('users', [
+        'email'=>$email,
+        'password'=>password_hash($password, PASSWORD_BCRYPT)
+        ]);
 
     (new Authenticator())->login($user);
 
