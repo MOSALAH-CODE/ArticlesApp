@@ -5,17 +5,17 @@
 <main>
     <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         <ul>
-            <?php foreach ($notes as $note) : ?>
+            <?php foreach ($articles as $article) : ?>
                 <li>
-                    <a href="/note?id=<?= $note['id'] ?>" class="text-blue-500 hover:underline">
-                        <?= escape($note['body']) ?>
+                    <a href="/article?id=<?= $article['id'] ?>" class="text-blue-500 hover:underline">
+                        <?= escape($article['title']) ?>
                     </a>
                 </li>
             <?php endforeach; ?>
         </ul>
 
         <p class="mt-6">
-            <a href="/notes/create" class="text-blue-500 hover:underline">Create Note</a>
+            <a href="/articles/create" class="text-blue-500 hover:underline">Create article</a>
         </p>
     </div>
 </main>

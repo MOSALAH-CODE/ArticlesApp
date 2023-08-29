@@ -9,14 +9,13 @@ if (\Core\Session::exists('user')) {
 
 $db = App::resolve(Database::class);
 
-$note = $db->get('notes', ['id', '=', $_GET['id']])->first();
+$article = $db->get('articles', ['id', '=', $_GET['id']])->first();
 
 
+authorize($article['author_id'] === $currentUser['id']);
 
-authorize($note['user_id'] === $currentUser['id']);
-
-view("notes/edit.view.php", [
-    'heading' => 'Edit Note',
+view("articles/edit.view.php", [
+    'heading' => 'Edit article',
     'errors' => [],
-    'note' => $note
+    'article' => $article
 ]);

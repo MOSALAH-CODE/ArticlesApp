@@ -7,9 +7,6 @@ use PDO;
 
 class Database
 {
-//    public $connection;
-//    public $statement;
-
     private static $_instance = null;
     private $_pdo,
             $_query,
@@ -63,7 +60,7 @@ class Database
         return $this;
     }
 
-    public function action($action, $table, $where = array()) {
+    public function action($action, $table, $where = []) {
         if(count($where) === 3) {
             $operators = array('=', '>', '<', '>=', '<=');
 
@@ -78,9 +75,7 @@ class Database
                     return $this;
                 }
             }
-
         }
-
         return false;
     }
 
@@ -130,7 +125,14 @@ class Database
         return $this->action('DELETE ', $table, $where);
     }
 
-    public function get($table, $where) {
+    public function get($table, $where = []) {
+        if (empty($where)){
+            $sql = "SELECT * FROM {$table}";
+
+            if(!$this->query($sql)->error()) {
+                return $this;
+            }
+        }
         return $this->action('SELECT *', $table, $where);
     }
 

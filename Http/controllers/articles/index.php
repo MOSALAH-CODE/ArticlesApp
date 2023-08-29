@@ -8,9 +8,9 @@ if (\Core\Session::exists('user')) {
 }
 
 $db = App::resolve(Database::class);
-$notes = $db->get('notes', ['user_id', '=', $currentUser['id']])->results();
+$articles = $db->get('articles', ['author_id', '=', $currentUser['id']])->results();
 
-view("notes/index.view.php", [
-    'heading' => 'My Notes',
-    'notes' => $notes
+view("articles/index.view.php", [
+    'heading' => 'My articles',
+    'articles' => $articles
 ]);

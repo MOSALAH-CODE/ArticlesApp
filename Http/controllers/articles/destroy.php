@@ -12,10 +12,10 @@ $db = App::resolve(Database::class);
 
 $currentUserId = 1;
 
-$note = $db->get('notes', ['id', '=', $_POST['id']])->first();
+$article = $db->get('articles', ['id', '=', $_POST['id']])->first();
 
-authorize($note['user_id'] === $currentUser['id']);
+authorize($article['user_id'] === $currentUser['id']);
 
-$db->delete('notes', ['id', '=', $_POST['id']]);
+$db->delete('articles', ['id', '=', $_POST['id']]);
 
-Redirect::to('/notes');
+Redirect::to('/articles');
