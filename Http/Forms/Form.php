@@ -36,5 +36,4 @@ class Form
 
         return $this;
     }
-
 }

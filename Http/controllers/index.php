@@ -9,5 +9,5 @@ $articles = \Core\App::resolve(\Core\Database::class)->get('articles')->results(
 view("index.view.php", [
     'heading' => 'Home',
     'articles'=> $articles,
-    'user'=>$user
+    'user'=>$user ?? ''
 ]);
