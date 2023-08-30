@@ -20,3 +20,9 @@ $router->post('/register', 'registration/store.php')->only('guest');
 $router->get('/login', 'session/create.php')->only('guest');
 $router->post('/session', 'session/store.php')->only('guest');
 $router->delete('/session', 'session/destroy.php')->only('auth');
+
+$router->get('/reset-password', 'password_reset/create.php')->only('guest');
+$router->post('/reset-password', 'password_reset/store.php')->only('guest');
+
+$router->get('/reset-password-token', 'password_reset/show.php')->only('guest');
+$router->patch('/reset-password-token', 'password_reset/update.php')->only('guest');

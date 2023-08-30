@@ -100,7 +100,7 @@ class Database
 
         return false;
     }
-    public function update($table, $id, $fields) {
+    public function update($table, $id, $fields, $condition = 'id') {
         $set = '';
         $x = 1;
 
@@ -111,8 +111,11 @@ class Database
             }
             $x++;
         }
-
-        $sql = "UPDATE {$table} SET {$set} WHERE id = {$id}";
+        if ($condition == 'id'){
+            $sql = "UPDATE {$table} SET {$set} WHERE id = {$id}";
+        } else {
+            $sql = "UPDATE {$table} SET {$set} WHERE {$condition} = '{$id}'";
+        }
 
         if(!$this->query($sql, $fields)->error()) {
             return true;

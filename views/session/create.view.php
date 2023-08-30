@@ -66,11 +66,36 @@
                                placeholder="Password">
                     </div>
                 </div>
-
-                <div class="flex items-center mb-4">
-                    <input id="remember" name="remember" type="checkbox" class="custom-checkbox">
-                    <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-black-300">Remember me</label>
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <input id="remember" name="remember" type="checkbox" class="custom-checkbox">
+                        <label for="remember" class="ml-2 font-medium leading-6 text-gray-900 hover:text-indigo-500 text-sm">Remember me</label>
+                    </div>
+                    <div class="text-sm">
+                        <a href="/reset-password" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+                    </div>
                 </div>
+
+
+                <!--                <div class="flex h-6 items-center">-->
+<!--                     Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+<!--                    <span-->
+<!--                            id="switch-span"-->
+<!--                            class="translate-x-4 h-4 w-4 cursor-pointer transform rounded-full bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-200 ease-in-out"-->
+<!--                            role="switch"-->
+<!--                            aria-checked="false"-->
+<!--                            aria-labelledby="switch-button-label"-->
+<!--                    ></span>-->
+<!--                    <input-->
+<!--                            id="switch-button"-->
+<!--                            type="button"-->
+<!--                            class="bg-gray-200 flex h-5 w-8 flex-none cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"-->
+<!--                            role="switch"-->
+<!--                            aria-checked="false"-->
+<!--                            aria-labelledby="switch-button-label"-->
+<!--                    > Enabled: "translate-x-3.5", Not Enabled: "translate-x-0" -->
+<!---->
+<!--                </div>-->
 
                 <div>
                     <button type="submit"
@@ -90,8 +115,14 @@
                     <?php endif; ?>
                 </ul>
             </form>
+            <p class="mt-10 text-center text-sm text-gray-500">
+                Not yet a member?
+                <a href="/register" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Register now</a>
+            </p>
         </div>
     </div>
 </main>
 
 <?php require base_path('views/partials/footer.php') ?>
+
+

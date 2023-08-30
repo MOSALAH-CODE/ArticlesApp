@@ -6,15 +6,15 @@ use Http\Forms\RegisterForm;
 
 
 $form = RegisterForm::validate($attributes = [
+    'name' => $_POST['name'],
     'email' => $_POST['email'],
-    'password' => $_POST['password']
+    'password' => $_POST['password'],
+    'confirm_password' => $_POST['confirm_password']
 ]);
 
-
 $userCreated = (new Authenticator)->registerAttempt(
-    $attributes['email'], $attributes['password']
+    $attributes['email'], $attributes['password'], $attributes['name']
 );
-
 
 if (!$userCreated) {
     $form->error(

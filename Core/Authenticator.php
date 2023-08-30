@@ -5,13 +5,12 @@ namespace Core;
 class Authenticator
 {
     private $_config,
-            $_user;
+        $_user;
 
     public function __construct()
     {
         $this->_config = require base_path('config.php');;
     }
-
 
     public function loginAttempt($email, $password, $remember)
     {
@@ -26,15 +25,18 @@ class Authenticator
 
         return false;
     }
-    public function registerAttempt($email, $password)
+
+    public function registerAttempt($email, $password, $name)
     {
         $this->getUser($email);
         if ($this->_user) {
             return false;
         } else {
             App::resolve(Database::class)->insert('users', [
-                'email'=>$email,
-                'password'=>password_hash($password, PASSWORD_BCRYPT)
+                'email' => $email,
+                'password' => password_hash($password, PASSWORD_BCRYPT),
+                'name' => $name,
+                'status' => "not verified"
             ]);
 
             $this->getUser($email);
@@ -45,10 +47,28 @@ class Authenticator
         }
     }
 
-    public function getUser($value, $key='email'){
-        return $this->_user = App::resolve(Database::class)->get('users', [$key, '=', $value])->first();
+    public function resetPasswordAttempt($email, $password)
+    {
+        $this->getUser($email);
+
+        if ($this->_user) {
+
+            App::resolve(Database::class)->update('users', $email, [
+                'password' => password_hash($password, PASSWORD_BCRYPT)
+            ], 'email');
+
+            $this->getUser($email);
+
+            (new Authenticator())->login($this->_user);
+            return true;
+        }
+        return false;
     }
 
+    public function getUser($value, $key = 'email')
+    {
+        return $this->_user = App::resolve(Database::class)->get('users', [$key, '=', $value])->first();
+    }
 
     public function login($user, $remember = false)
     {
