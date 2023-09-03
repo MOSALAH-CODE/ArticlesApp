@@ -66,9 +66,9 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         case UPLOAD_ERR_PARTIAL:
             $errors['image'] = 'The uploaded file was only partially uploaded.';
             break;
-        case UPLOAD_ERR_NO_FILE:
-            $errors['image'] = 'No file was uploaded.';
-            break;
+//        case UPLOAD_ERR_NO_FILE:
+//            $errors['image'] = 'No file was uploaded.';
+//            break;
         case UPLOAD_ERR_NO_TMP_DIR:
         case UPLOAD_ERR_CANT_WRITE:
         case UPLOAD_ERR_EXTENSION:
