@@ -12,12 +12,12 @@
                 <article class="flex max-w-xl flex-col items-start justify-between">
                     <div class="flex items-center gap-x-4 text-xs">
                         <time datetime="<?= $article['publication_date'] ?>" class="text-gray-500"><?= $article['publication_date'] ?></time>
-                        <a href="#"
+                        <a href="category?category_id=<?=$article['category_id']?>"
                            class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"><?= \Core\App::resolve(\Core\Database::class)->get('categories', ['id', '=', $article['category_id']])->first()['name'] ?></a>
                     </div>
                     <div class="group relative">
                         <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                            <a href="#">
+                            <a href="article?article_id=<?= $article['id'] ?>">
                                 <span class="absolute inset-0"></span>
                                 <?= $article['title'] ?>
                             </a>
@@ -29,7 +29,7 @@
                              alt="" class="h-10 w-10 rounded-full bg-gray-50">
                         <div class="text-sm leading-6">
                             <p class="font-semibold text-gray-900">
-                                <a href="#">
+                                <a href="author?author_id=<?=$article['author_id']?>">
                                     <span class="absolute inset-0"></span>
                                     <?= \Core\App::resolve(\Core\Database::class)->get('users', ['id', '=', $article['author_id']])->first()['name'] ?>
                                 </a>

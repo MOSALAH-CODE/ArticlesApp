@@ -26,6 +26,16 @@
             switchSpan.classList.remove('translate-x-8');
         }
     });
+
+    function dropdownOthers() {
+        var x = document.getElementById("dropdown").value;
+        var input = document.getElementById("others-text");
+        if (x === "others") {
+            input.style.display = "inline";
+        } else {
+            input.style.display = "none";
+        }
+    }
 </script>
 
 

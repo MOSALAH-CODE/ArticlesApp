@@ -4,7 +4,7 @@ namespace Core;
 
 class Validator
 {
-    public static function string($value, $min = 1, $max = INF)
+    public static function string($value, $min = 1, $max = INF): bool
     {
         $value = trim($value);
 
@@ -16,7 +16,8 @@ class Validator
         return filter_var($value, FILTER_VALIDATE_EMAIL);
     }
 
-    public static function confirmPassword($password, $confirm_password){
+    public static function confirmPassword($password, $confirm_password): bool
+    {
         return $password == $confirm_password;
     }
 }
