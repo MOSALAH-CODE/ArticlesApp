@@ -1,4 +1,4 @@
-<?php require base_path('views/partials/head.php') ?>
+<?php require base_path('views/partials/headWhiteBG.php') ?>
 <?php require base_path('views/partials/nav.php') ?>
 
 <div class="bg-white py-24 sm:py-8">

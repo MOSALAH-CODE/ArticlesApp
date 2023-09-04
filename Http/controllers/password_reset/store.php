@@ -1,6 +1,7 @@
 <?php
 
 use Core\Input;
+use Core\Mailer;
 use Http\Forms\SendMailToResetForm;
 
 $email = Input::get('email');
@@ -15,7 +16,7 @@ $token_hash = hash('sha256', $token);
 
 date_default_timezone_set('Europe/Istanbul');
 
-$expiry = date("Y-m-d H:i:s", time());
+$expiry = date("Y-m-d H:i:s", time() + 30 * 60);
 
 $user = \Core\App::resolve(\Core\Database::class)->get('users', ['email', '=', $email])->first();
 
@@ -26,21 +27,15 @@ if (!empty($user)){
         'expiration'=> $expiry
     ]);
 
-    $mail = require base_path('Core/mailer.php');
-    $mail->setFrom("noreply@example.com"); // Here is the correction
-    $mail->addAddress($email);
-    $mail->Subject = "Reset password";
-    $mail->Body = <<<END
+    $mailer = new Mailer();
+    $mailer->sendEmail($email, 'Reset password',
+        <<<END
     Hi {$user['name']},
     Click <a href="http://localhost:8888/reset-password-token?token=$token">Here</a> 
     to reset your password
-    END;
+    END
+    );
 
-    try {
-        $mail->send();
-    }catch (Exception $e){
-        echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
-    }
     \Core\Session::flash('success', "Check your inbox for password reset instructions.");
     require base_path("includes/success/password_reset.php");
     die();

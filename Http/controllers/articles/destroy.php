@@ -10,11 +10,9 @@ if (\Core\Session::exists('user')) {
 
 $db = App::resolve(Database::class);
 
-$currentUserId = 1;
-
 $article = $db->get('articles', ['id', '=', $_POST['id']])->first();
 
-authorize($article['user_id'] === $currentUser['id']);
+authorize($article['author_id'] === $currentUser['id']);
 
 $db->delete('articles', ['id', '=', $_POST['id']]);
 

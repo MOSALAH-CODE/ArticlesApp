@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use PhpParser\Node\Expr\New_;
+
 class Authenticator
 {
     private $_config,
@@ -12,17 +14,23 @@ class Authenticator
         $this->_config = require base_path('config.php');;
     }
 
+    public function accountVerified($email){
+        $this->getUser($email);
+        return $this->_user['status'] === 'verified';
+    }
+
     public function loginAttempt($email, $password, $remember)
     {
+        if (!$this->accountVerified($email)){
+            return -1;
+        }
         $this->getUser($email);
         if ($this->_user) {
             if (password_verify($password, $this->_user['password'])) {
                 $this->login($this->_user, $remember);
-
                 return true;
             }
         }
-
         return false;
     }
 
@@ -36,12 +44,30 @@ class Authenticator
                 'email' => $email,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'name' => $name,
-                'status' => "not verified"
+                'status' => "not-verified"
             ]);
 
             $this->getUser($email);
 
-            (new Authenticator())->login($this->_user);
+            $token = bin2hex(random_bytes(16));
+            $token_hash = hash('sha256', $token);
+
+            date_default_timezone_set('Europe/Istanbul');
+            $expiry = date("Y-m-d H:i:s", time() + 30 * 60);
+
+            \Core\App::resolve(\Core\Database::class)->insert('account_verifications',[
+                'user_id'=>$this->_user['id'],
+                'token'=>$token_hash,
+                'expiration'=> $expiry
+            ]);
+
+            $mailer = new Mailer();
+            $mailer->sendEmail($email, 'Verify Your Email', <<<END
+    Hi {$name},
+    Click <a href="http://localhost:8888/verify?token=$token">Here</a> 
+    to verify your account
+    END
+            );
 
             return true;
         }
@@ -57,9 +83,11 @@ class Authenticator
                 'password' => password_hash($password, PASSWORD_BCRYPT)
             ], 'email');
 
+            App::resolve(Database::class)->delete('password_resets', ['user_id', '=', $this->_user['id']]);
+
             $this->getUser($email);
 
-            (new Authenticator())->login($this->_user);
+//            (new Authenticator())->login($this->_user);
             return true;
         }
         return false;
@@ -75,7 +103,6 @@ class Authenticator
         Session::put('user', [
             'id' => $user['id']
         ]);
-
 
         if ($remember) {
             $token = bin2hex(random_bytes(32)); // Generate a random token

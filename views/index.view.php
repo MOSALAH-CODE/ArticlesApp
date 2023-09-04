@@ -1,4 +1,4 @@
-<?php require('partials/head.php') ?>
+<?php require('partials/headWhiteBG.php') ?>
 <?php require('partials/nav.php') ?>
 
 <div class="bg-white py-24 sm:py-32">
