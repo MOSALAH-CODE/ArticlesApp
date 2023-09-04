@@ -36,6 +36,39 @@
             input.style.display = "none";
         }
     }
+
+
+
+    const dropdownStates = [];
+
+    function showDropdown(index) {
+        const dropdownMenu = document.querySelector('#dropdown_' + index + ' .dropdown-menu');
+        dropdownMenu.classList.remove('hidden');
+        dropdownStates[index] = true;
+    }
+
+    function hideDropdown(index) {
+        const dropdownMenu = document.querySelector('#dropdown_' + index + ' .dropdown-menu');
+        dropdownMenu.classList.add('hidden');
+        dropdownStates[index] = false;
+    }
+
+    // Attach event listeners to each "Actions" button
+    const actionsButtons = document.querySelectorAll('.dropdown button');
+    actionsButtons.forEach((button, index) => {
+        button.addEventListener('mouseenter', () => {
+            showDropdown(index);
+        });
+
+        // Use mouseout to hide the dropdown when the mouse leaves the entire article container
+        const articleContainer = document.querySelector('#dropdown_' + index);
+        articleContainer.addEventListener('mouseout', (event) => {
+            // Check if the mouse has left the entire article container, not just the button
+            if (!articleContainer.contains(event.relatedTarget)) {
+                hideDropdown(index);
+            }
+        });
+    });
 </script>
 
 

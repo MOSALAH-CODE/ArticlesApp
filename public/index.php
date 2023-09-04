@@ -33,10 +33,11 @@ try {
 
 Session::unflash();
 
-$config = require base_path('config.php');
+$config_remember = require base_path('Core/Config/remember.php');
+$config_session = require base_path('Core/Config/sessions.php');
 
-if (Cookie::exists($config['remember']['cookie_name']) && !Session::exists($config['sessions']['session_name'])) {
-    $token = Cookie::get($config['remember']['cookie_name']);
+if (Cookie::exists($config_remember['cookie_name']) && !Session::exists($config_session['session_name'])) {
+    $token = Cookie::get($config_remember['cookie_name']);
     $hashCheck = App::resolve(Database::class)->getInstance()->get('remember_tokens', ['token', '=', $token])->first();
     if (count($hashCheck)) {
         $user_id = $hashCheck['user_id'];

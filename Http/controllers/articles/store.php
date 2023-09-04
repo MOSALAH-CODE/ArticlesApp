@@ -56,28 +56,7 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     } else {
         $errors['image'] = 'Failed to upload image.';
     }
-} else {
-    // Handle other errors, e.g., file size exceeds maximum, file type not allowed, etc.
-    switch ($_FILES['image']['error']) {
-        case UPLOAD_ERR_INI_SIZE:
-        case UPLOAD_ERR_FORM_SIZE:
-            $errors['image'] = 'The uploaded file exceeds the maximum file size limit.';
-            break;
-        case UPLOAD_ERR_PARTIAL:
-            $errors['image'] = 'The uploaded file was only partially uploaded.';
-            break;
-//        case UPLOAD_ERR_NO_FILE:
-//            $errors['image'] = 'No file was uploaded.';
-//            break;
-        case UPLOAD_ERR_NO_TMP_DIR:
-        case UPLOAD_ERR_CANT_WRITE:
-        case UPLOAD_ERR_EXTENSION:
-        default:
-            $errors['image'] = 'An error occurred while uploading the file.';
-            break;
-    }
 }
-
 
 if (!empty($errors)) {
     return view("articles/create.view.php", [

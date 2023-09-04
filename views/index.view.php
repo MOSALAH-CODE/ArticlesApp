@@ -1,6 +1,18 @@
 <?php require('partials/headWhiteBG.php') ?>
 <?php require('partials/nav.php') ?>
 
+<style>
+    /* Adjust the dropdown menu position */
+    .dropdown-menu {
+        position: absolute;
+        top: 100%; /* Position the menu below the button */
+        right: 0; /* Position the menu to the right */
+        z-index: 1; /* Ensure the menu is above other elements */
+        opacity: 0.8; /* Set the opacity to your desired value */
+    }
+
+</style>
+
 <div class="bg-white py-24 sm:py-32">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl lg:mx-0">
@@ -8,12 +20,43 @@
             <p class="mt-2 text-lg leading-8 text-gray-600">Learn how to grow your business with our expert advice.</p>
         </div>
         <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            <?php $x = 0; ?>
             <?php foreach ($articles as $article) : ?>
-                <article class="flex max-w-xl flex-col items-start justify-between">
-                    <div class="flex items-center gap-x-4 text-xs">
-                        <time datetime="<?= $article['publication_date'] ?>" class="text-gray-500"><?= $article['publication_date'] ?></time>
-                        <a href="category?id=<?=$article['category_id']?>"
-                           class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"><?= \Core\App::resolve(\Core\Database::class)->get('categories', ['id', '=', $article['category_id']])->first()['name'] ?></a>
+                <article class="flex max-w-xl flex-col justify-between">
+                    <div class="flex justify-between gap-x-4 text-xs">
+                        <div class="flex items-center gap-x-4 text-xs">
+                            <time datetime="<?= $article['publication_date'] ?>" class="text-gray-500"><?= $article['publication_date'] ?></time>
+                            <a href="category?id=<?=$article['category_id']?>"
+                               class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"><?= \Core\App::resolve(\Core\Database::class)->get('categories', ['id', '=', $article['category_id']])->first()['name'] ?></a>
+                        </div>
+                        <div >
+                            <?php if ($hasPermissions[$x]) : ?>
+                                <div class="relative group" id="<?php echo 'dropdown_' . $x ?>">
+                                    <div class="dropdown inline-block relative">
+                                        <button class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center" onmouseover="showDropdown(<?php echo $x ?>)" onmouseleave="hideDropdown(<?php echo $x ?>)">
+                                            <!-- Remove the text "Actions" and add an SVG icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 transform group-hover:rotate-180 transition-transform duration-200 ease-in-out mr-1">
+                                                <path fill-rule="evenodd" d="M2 3a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                                                <path fill-rule="evenodd" d="M2 8a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                                                <path fill-rule="evenodd" d="M2 13a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            <!-- Add an icon here (e.g., Font Awesome or any other icon library) -->
+                                            <!-- For example, a pencil icon -->
+                                            <i class="fas fa-pencil"></i>
+                                        </button>
+                                        <ul class="dropdown-menu hidden text-gray-700 pt-1" onmouseleave="hideDropdown(<?php echo $x ?>)" onmouseover="showDropdown(<?php echo $x ?>)">
+                                            <li><a class="rounded-t bg-green-200 hover:bg-green-300 py-2 px-4 block whitespace-no-wrap text-black" href="/article/edit?id=<?= $article['id'] ?>">Edit</a></li>
+                                            <li><button type="button" class="rounded-b bg-red-200 hover:bg-red-300 py-2 px-4 block whitespace-no-wrap text-black" onclick="deleteArticle(<?php echo $x ?>)">Delete</button></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <form id="delete-form-<?php echo $x ?>" class="hidden" method="POST" action="/">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="id" value="<?= $article['id'] ?>">
+                                </form>
+                            <?php endif; ?>
+                        </div>
                     </div>
                     <div class="group relative">
                         <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
@@ -37,36 +80,11 @@
                         </div>
                     </div>
                 </article>
+                <?php $x++; ?>
             <?php endforeach; ?>
         </div>
     </div>
 </div>
-
-
-<!--<div class="relative isolate overflow-hidden  px-6 py-24 sm:py-8 lg:overflow-visible lg:px-0">-->
-<!---->
-<!--    <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start lg:gap-y-10">-->
-<!--        <div class="lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">-->
-<!--            --><?php //foreach ($articles as $article) : ?>
-<!--                <div style="margin-top: 4em" class="lg:pr-4">-->
-<!--                    <div class="bg-white p-6 rounded-lg shadow-md">-->
-<!--                        <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">--><?php //= $article['title'] ?><!--</h1>-->
-<!--                        <p class="mt-6 text-xl leading-8 text-gray-700">--><?php //= $article['description'] ?><!--</p>-->
-<!--                        <p class="mt-2 text-base font-semibold leading-7 text-indigo-600">Publication-->
-<!--                                                                                          Date: --><?php //= $article['publication_date'] ?><!--</p>-->
-<!--                        <div class="lg:mt-6 lg:text-right lg:pl-4">-->
-<!--                            <a href="article?id= --><?php //=$article['id']?><!--" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Read more</a>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            --><?php //endforeach; ?>
-<!---->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-
-
 
 <?php require('partials/footer.php') ?>
 

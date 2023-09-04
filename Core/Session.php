@@ -34,6 +34,12 @@ class Session
         $_SESSION = [];
     }
 
+    public static function delete($name) {
+        if(self::exists($name)) {
+            unset($_SESSION[$name]);
+        }
+    }
+
     public static function destroy()
     {
         static::flush();

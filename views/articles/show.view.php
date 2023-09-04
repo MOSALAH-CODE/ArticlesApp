@@ -9,15 +9,19 @@ $category = \Core\App::resolve(\Core\Database::class)->get('categories', ['id', 
         <div class="lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-1 lg:gap-x-8 lg:px-8">
             <div class="lg:pr-4">
                 <div>
-                    <a href="category?id=<?= $category['id'] ?>" class="text-base font-semibold leading-7 text-indigo-600"><?= $category['name'] ?></a>
+                    <a href="category?id=<?= $category['id'] ?>"
+                       class="text-base font-semibold leading-7 text-indigo-600"><?= $category['name'] ?></a>
                     <div class="flex justify-between items-center mb-4">
                         <div class="mx-auto max-w-2xl lg:mx-0">
                             <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"><?= $article['title'] ?></h2>
                         </div>
-                        <a href="/article/edit?id=<?= $article['id'] ?>"
-                           class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                            Edit article
-                        </a>
+
+                        <?php if ($hasPermission) : ?>
+                            <a href="/article/edit?id=<?= $article['id'] ?>"
+                               class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                Edit article
+                            </a>
+                        <?php endif; ?>
                     </div>
                     <p class="mt-6 text-xl leading-8 text-gray-700"><?= $article['description'] ?></p>
                 </div>

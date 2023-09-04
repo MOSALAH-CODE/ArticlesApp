@@ -2,26 +2,23 @@
 
 namespace Core;
 
-use PhpParser\Node\Expr\New_;
-
 class Authenticator
 {
-    private $_config,
+    private $_sessionName,
+        $_cookieName,
         $_user;
 
     public function __construct()
     {
-        $this->_config = require base_path('config.php');;
-    }
-
-    public function accountVerified($email){
-        $this->getUser($email);
-        return $this->_user['status'] === 'verified';
+        $config = require base_path('Core/Config/sessions.php');
+        $this->_sessionName = $config['session_name'];
+        $config = require base_path('Core/Config/remember.php');
+        $this->_cookieName = $config['cookie_name'];
     }
 
     public function loginAttempt($email, $password, $remember)
     {
-        if (!$this->accountVerified($email)){
+        if (!$this->accountVerified($email)) {
             return -1;
         }
         $this->getUser($email);
@@ -34,6 +31,37 @@ class Authenticator
         return false;
     }
 
+    public function accountVerified($email)
+    {
+        $this->getUser($email);
+        return $this->_user['status'] === 'verified';
+    }
+
+    public function getUser($value, $key = 'email')
+    {
+        return $this->_user = App::resolve(Database::class)->get('users', [$key, '=', $value])->first();
+    }
+
+    public function login($user, $remember = false)
+    {
+        Session::put('user', [
+            'id' => $user['id']
+        ]);
+
+        if ($remember) {
+            $token = bin2hex(random_bytes(32)); // Generate a random token
+            App::resolve(Database::class)->insert('remember_tokens', [
+                'user_id' => $user['id'],
+                'token' => $token
+            ]);
+
+            // Set the token as a cookie
+            Cookie::put($this->_cookieName, $token, time() + 3600 * 24 * 30);
+        }
+
+        session_regenerate_id(true);
+    }
+
     public function registerAttempt($email, $password, $name)
     {
         $this->getUser($email);
@@ -44,7 +72,8 @@ class Authenticator
                 'email' => $email,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'name' => $name,
-                'status' => "not-verified"
+                'status' => "not-verified",
+                'group' => 1
             ]);
 
             $this->getUser($email);
@@ -55,10 +84,10 @@ class Authenticator
             date_default_timezone_set('Europe/Istanbul');
             $expiry = date("Y-m-d H:i:s", time() + 30 * 60);
 
-            \Core\App::resolve(\Core\Database::class)->insert('account_verifications',[
-                'user_id'=>$this->_user['id'],
-                'token'=>$token_hash,
-                'expiration'=> $expiry
+            \Core\App::resolve(\Core\Database::class)->insert('account_verifications', [
+                'user_id' => $this->_user['id'],
+                'token' => $token_hash,
+                'expiration' => $expiry
             ]);
 
             $mailer = new Mailer();
@@ -93,36 +122,11 @@ class Authenticator
         return false;
     }
 
-    public function getUser($value, $key = 'email')
-    {
-        return $this->_user = App::resolve(Database::class)->get('users', [$key, '=', $value])->first();
-    }
-
-    public function login($user, $remember = false)
-    {
-        Session::put('user', [
-            'id' => $user['id']
-        ]);
-
-        if ($remember) {
-            $token = bin2hex(random_bytes(32)); // Generate a random token
-            App::resolve(Database::class)->insert('remember_tokens', [
-                'user_id' => $user['id'],
-                'token' => $token
-            ]);
-
-            // Set the token as a cookie
-            Cookie::put($this->_config['remember']['cookie_name'], $token, time() + 3600 * 24 * 30);
-        }
-
-        session_regenerate_id(true);
-    }
-
     public function logout()
     {
 //        App::resolve(Database::class)->delete('remember_token', ['user_id', '=', $this->_user['id']]);
 
-        Cookie::delete($this->_config['remember']['cookie_name']);
+        Cookie::delete($this->_cookieName);
         Session::destroy();
     }
 }

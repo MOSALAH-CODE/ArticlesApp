@@ -3,18 +3,24 @@
 use Core\App;
 use Core\Database;
 
-if (\Core\Session::exists('user')) {
-    $currentUser = getCurrentUser(\Core\Session::get('user')['id'], 'id');
-}
+$user = new \Core\User();
 
 $db = App::resolve(Database::class);
 
-
 $article = $db->get('articles', ['id', '=', $_GET['id']])->first();
 
-authorize($article['author_id'] === $currentUser['id']);
+$hasPermission = false;
+
+if ($user->isLoggedIn()){
+    $hasPermission = $article['author_id'] === $user->data()['id'];
+
+    if (!$hasPermission){
+        $hasPermission = $user->hasPermission('admin');
+    }
+}
 
 view("articles/show.view.php", [
     'heading' => 'article',
-    'article' => $article
+    'article' => $article,
+    'hasPermission' => $hasPermission
 ]);
