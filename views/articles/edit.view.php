@@ -90,6 +90,10 @@ $categories = \Core\App::resolve(\Core\Database::class)->get('categories')->resu
                                 <?php if (isset($errors['category'])) : ?>
                                     <p class="text-red-500 text-xs mt-2"><?= $errors['category'] ?></p>
                                 <?php endif; ?>
+
+                                <?php if (isset($errors['categories'])) : ?>
+                                    <p class="text-red-500 text-xs mt-2"><?= $errors['categories'] ?></p>
+                                <?php endif; ?>
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="block text-sm font-medium text-gray-700">Image</label>

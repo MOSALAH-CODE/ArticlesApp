@@ -60,3 +60,21 @@ function escape($string) {
 function getCurrentUser($value, $key='email'){
     return App::resolve(Database::class)->get('users', [$key, '=', $value])->first();
 }
+
+function getTime(){
+    date_default_timezone_set('Europe/Istanbul');
+    return date('Y-m-d H:i:s', time());
+}
+
+function hasPermission($user, $resource) {
+    if ($user->isLoggedIn()) {
+        if ($resource === $user->data()['id']) {
+            return true; // User is the owner
+        }
+        if ($user->hasPermission('admin')) {
+            return true; // User has 'admin' role
+        }
+    }
+
+    return false; // User doesn't have permission
+}

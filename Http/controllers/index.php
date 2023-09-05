@@ -11,7 +11,6 @@ $articles = \Core\App::resolve(\Core\Database::class)->get('articles')->results(
 
 $hasPermission = [];
 
-
 $x = 0;
 foreach ($articles as $article){
     if ($user->isLoggedIn()){

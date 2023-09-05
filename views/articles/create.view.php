@@ -1,9 +1,15 @@
-<?php require base_path('views/partials/head.php') ?>
+<?php use Core\App;
+use Core\Session;
+
+require base_path('views/partials/head.php') ?>
 <?php require base_path('views/partials/nav.php') ?>
 <?php require base_path('views/partials/banner.php') ?>
 
 <?php
-$categories = \Core\App::resolve(\Core\Database::class)->get('categories')->results();
+$categories = App::resolve(\Core\Database::class)->get('categories')->results();
+
+$attributes = Session::get('attributes');
+Session::unflash();
 ?>
 
 <main>
@@ -22,7 +28,7 @@ $categories = \Core\App::resolve(\Core\Database::class)->get('categories')->resu
                                             type="text"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             placeholder="Enter article title"
-                                            value="<?= $_POST['title'] ?? '' ?>"
+                                            value="<?= $attributes['title'] ?? '' ?>"
                                     >
 
                                     <?php if (isset($errors['title'])) : ?>
@@ -40,7 +46,7 @@ $categories = \Core\App::resolve(\Core\Database::class)->get('categories')->resu
                                             rows="3"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             placeholder="Write your article description here..."
-                                    ><?= $_POST['description'] ?? '' ?></textarea>
+                                    ><?= $attributes['description'] ?? '' ?></textarea>
 
                                     <?php if (isset($errors['description'])) : ?>
                                         <p class="text-red-500 text-xs mt-2"><?= $errors['description'] ?></p>
@@ -57,7 +63,7 @@ $categories = \Core\App::resolve(\Core\Database::class)->get('categories')->resu
                                             rows="5"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             placeholder="Write your article content here..."
-                                    ><?= $_POST['content'] ?? '' ?></textarea>
+                                    ><?= $attributes['content'] ?? '' ?></textarea>
 
                                     <?php if (isset($errors['content'])) : ?>
                                         <p class="text-red-500 text-xs mt-2"><?= $errors['content'] ?></p>

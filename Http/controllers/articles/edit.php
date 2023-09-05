@@ -17,19 +17,12 @@ if (empty($article)){
     abort();
 }
 
-$hasPermission = false;
-
-if ($user->isLoggedIn()){
-    $hasPermission = $article['author_id'] === $user->data()['id'];
-    if (!$hasPermission){
-        $hasPermission = $user->hasPermission('admin');
-    }
-}
+$hasPermission = hasPermission($user, $article['author_id']);
 
 authorize($hasPermission);
 
 view("articles/edit.view.php", [
     'heading' => 'Edit article',
-    'errors' => [],
+    'errors' => \Core\Session::get('errors'),
     'article' => $article
 ]);

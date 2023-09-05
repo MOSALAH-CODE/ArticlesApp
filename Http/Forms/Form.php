@@ -2,6 +2,7 @@
 
 namespace Http\Forms;
 
+use Core\Session;
 use Core\ValidationException;
 
 class Form
@@ -22,6 +23,7 @@ class Form
 
     public function failed()
     {
+        Session::flash('attributes', $this->attributes);
         return count($this->errors);
     }
 
