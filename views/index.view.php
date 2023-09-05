@@ -46,12 +46,12 @@
                                         </button>
                                         <ul class="dropdown-menu hidden text-gray-700 pt-1" onmouseleave="hideDropdown(<?php echo $x ?>)" onmouseover="showDropdown(<?php echo $x ?>)">
                                             <li><a class="rounded-t bg-green-200 hover:bg-green-300 py-2 px-4 block whitespace-no-wrap text-black" href="/article/edit?id=<?= $article['id'] ?>">Edit</a></li>
-                                            <li><button type="button" class="rounded-b bg-red-200 hover:bg-red-300 py-2 px-4 block whitespace-no-wrap text-black" onclick="deleteArticle(<?php echo $x ?>)">Delete</button></li>
+                                            <li><button type="button" class="rounded-b bg-red-200 hover:bg-red-300 py-2 px-4 block whitespace-no-wrap text-black" onclick="document.querySelector('#delete-form-<?= $article['id'] ?>').submit()">Delete</button></li>
                                         </ul>
                                     </div>
                                 </div>
 
-                                <form id="delete-form-<?php echo $x ?>" class="hidden" method="POST" action="/">
+                                <form id="delete-form-<?= $article['id'] ?>" class="hidden" method="POST" action="/">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <input type="hidden" name="id" value="<?= $article['id'] ?>">
                                 </form>

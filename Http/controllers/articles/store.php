@@ -30,8 +30,7 @@ if (\Core\Input::get('categories') === 'null'){
     $errors['categories'] = 'A category is required.';
 }
 
-
-if (!Validator::string(\Core\Input::get('category'), 1, 255 && \Core\Input::get('categories') === 'others')){
+if (!Validator::string(\Core\Input::get('category'), 1, 255) && (\Core\Input::get('categories') === 'others')){
     $errors['categories'] = 'A category of 1 to 255 characters is required.';
 }
 
