@@ -52,4 +52,6 @@ if (Cookie::exists($config_remember['cookie_name']) && !Session::exists($config_
     }
 }
 
+//require base_path('createDB.php');
+
 
