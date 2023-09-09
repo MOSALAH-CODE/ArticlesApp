@@ -19,6 +19,8 @@ if ($user->isLoggedIn()){
     }
 }
 
+//$hasPermission = hasPermission($user, $article['author_id']);
+
 view("articles/show.view.php", [
     'heading' => 'article',
     'article' => $article,

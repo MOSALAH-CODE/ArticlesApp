@@ -1,10 +1,12 @@
 <?php
 
-if (\Core\Session::exists('user')) {
-    $currentUser = getCurrentUser(\Core\Session::get('user')['id'], 'id');
+$user = new \Core\User();
+
+if ($user->isLoggedIn()) {
+    view("profile/index.view.php", [
+        'user' => $user->data()
+    ]);
+} else {
+    \Core\Redirect::to('/login');
 }
 
-
-view("profile/index.view.php", [
-    'user' => $currentUser
-]);

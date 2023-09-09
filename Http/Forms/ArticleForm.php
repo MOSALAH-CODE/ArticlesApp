@@ -92,7 +92,6 @@ class ArticleForm extends Form
                     ]);
                     return App::resolve(Database::class)->query('SELECT * FROM `categories` ORDER BY id DESC LIMIT 1')->first()['id'];
                 }
-
             }
             $this->error('category', 'This category already found')->throw();
         }
