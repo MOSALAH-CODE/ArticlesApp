@@ -20,13 +20,14 @@
                         <dt class="text-sm font-medium leading-6 text-gray-900">Full name</dt>
                         <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0"><?= $user['name'] ?></dd>
                     </div>
-                    <form method="post">
-                        <div class="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
-                            <dt class="text-sm font-medium leading-6 text-gray-900">Email address</dt>
-                            <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0"><?= $user['email'] ?></dd>
-                        </div>
-                    </form>
-
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Email address</dt>
+                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0"><?= $user['email'] ?></dd>
+                    </div>
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Phone number</dt>
+                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-1 sm:mt-0"><?= $user['phone'] ?></dd>
+                    </div>
                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 
                         <div class="mt-1 sm:mt-0 sm:col-span-1">

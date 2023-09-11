@@ -39,6 +39,18 @@
                         <input name="email" id="email" class="relative block w-full appearance-none rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                value="<?= $user['email'] ?>" placeholder="Enter your email">
                     </div>
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
+                        <div>
+                            <dt class="text-sm font-medium leading-6 text-gray-900">Phone number</dt>
+                            <?php if (isset($errors['phone'])) : ?>
+                                <p class="text-red-500 text-xs mt-2"><?= $errors['phone'] ?></p>
+                            <?php endif; ?>
+                        </div>
+
+                        <label for="phone" hidden="hidden" >Name</label>
+                        <input name="phone" id="phone" class="relative block w-full appearance-none rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                               value="<?= $user['phone'] ?>" placeholder="Enter your phone number">
+                    </div>
                     <div class="px-4 py-6 sm:grid sm:grid-cols-1 sm:gap-4 sm:px-0">
 
                         <div class="mt-1 sm:mt-0 sm:col-span-1 flex justify-end">

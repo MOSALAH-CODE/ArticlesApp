@@ -15,11 +15,25 @@
 
 <div class="bg-white py-24 sm:py-32">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="mx-auto max-w-2xl lg:mx-0">
+        <div class="mb-5 mx-auto max-w-2xl lg:mx-0">
             <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">From the blog</h2>
             <p class="mt-2 text-lg leading-8 text-gray-600">Learn how to grow your business with our expert advice.</p>
         </div>
-        <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+
+        <form method="post">
+            <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                </div>
+                <input name="search" type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search Title, Category, Author, Description, Content..." required>
+                <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+            </div>
+        </form>
+
+        <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-8 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             <?php $x = 0; ?>
             <?php foreach ($articles as $article) : ?>
                 <article class="flex max-w-xl flex-col justify-between">
@@ -86,6 +100,41 @@
     </div>
 </div>
 
-<?php require('partials/footer.php') ?>
+<?php require('partials/footer.php')?>
 
+<!---->
+<!-- Add the live search input field here -->-->
+<!--<div class="container mt-4">-->
+<!--    <h6 class="mt-5"><b>Search Articles</b></h6>-->
+<!--    <div class="input-group mb-4 mt-3">-->
+<!--        <div class="form-outline">-->
+<!--            <label for="getArticleTitle"></label>-->
+<!--            <input type="text" id="getArticleTitle" class="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring focus:ring-indigo-300 focus:border-indigo-300">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div id="searchResults">-->
+<!--         Display search results here -->-->
+<!--    </div>-->
+<!--</div>-->
+<!---->
+<!--<script>-->
+<!--    jQuery(document).ready(function(){-->
+<!--        $('#getArticleTitle').on("keyup", function () {-->
+<!--            console.log('getArticleTitle')-->
+<!--            var getTitle = $(this).val();-->
+<!--            $.ajax({-->
+<!--                method: 'POST',-->
+<!--                url: 'searcharticles.php', // Create this file to handle the search-->
+<!--                data: {title: getTitle},-->
+<!--                success: function (response) {-->
+<!--                    $("#searchResults").html(response);-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+<!---->
+<!---->
+<!--</body>-->
+<!--</html>-->
 

@@ -38,7 +38,6 @@
     }
 
 
-
     const dropdownStates = [];
 
     function showDropdown(index) {
@@ -69,8 +68,8 @@
             }
         });
     });
-</script>
 
+</script>
 
 
 </body>

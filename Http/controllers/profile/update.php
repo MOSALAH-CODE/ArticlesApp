@@ -22,6 +22,7 @@ if ($user->isLoggedIn()) {
     $form = ProfileForm::validate($attributes = [
         'name' => Input::get('name'),
         'email' => Input::get('email'),
+        'phone' => Input::get('phone'),
     ]);
 
     $form->updateProfile($user->data()['id']);

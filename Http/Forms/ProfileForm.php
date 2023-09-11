@@ -17,6 +17,10 @@ class ProfileForm extends Form
         if (!Validator::email($attributes['email'])) {
             $this->errors['email'] = 'Please provide a valid email address.';
         }
+
+        if (!Validator::phone($attributes['phone'])){
+            $this->errors['phone'] = 'Please provide a valid 10-digit phone number.';
+        }
     }
 
     public function updateProfile($id)
@@ -24,6 +28,7 @@ class ProfileForm extends Form
         App::resolve(Database::class)->update('users', $id, [
             'name' => $this->attributes['name'],
             'email' => $this->attributes['email'],
+            'phone' => $this->attributes['phone']
         ]);
     }
 }

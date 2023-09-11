@@ -1,6 +1,7 @@
 <?php
 
 $router->get('/', 'index.php');
+$router->post('/', 'index.php');
 $router->delete('/', 'destroy.php');
 
 //$router->get('/about', 'about.php');
